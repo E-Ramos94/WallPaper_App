@@ -19,14 +19,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -146,6 +150,13 @@ public class PerfilAdmin extends Fragment {
             }
         });
 
+        ACTUALIZARDATOS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditarDatos();
+            }
+        });
+
         FOTOPERFILIMG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +165,174 @@ public class PerfilAdmin extends Fragment {
         });
 
         return view;
+    }
+
+    private void EditarDatos() {
+        //MOSTAR UN DIALOG QUE CONTIENE OPCIONES
+        //1.- EDITAR NOMBRES
+        //2.- EDITAR APELLIDOS
+        //3.- EDITAR EDAD
+        String [] opciones = {"Editar nombres", "Editar apellidos", "Editar edad"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Elegir opción");
+        builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    //EDITAR NOMBRES
+                    EditarNombres();
+
+                } else if (which == 1) {
+                    //EDITAR APELLIDOS
+                    EditarApellidos();
+
+                } else if (which == 2) {
+                    //EDITAR EDAD
+                    EditarEdad();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+
+    private void EditarNombres() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Actualizar informacion");
+        LinearLayoutCompat linearLayoutCompat = new LinearLayoutCompat(getActivity());
+        linearLayoutCompat.setOrientation(LinearLayoutCompat.VERTICAL);
+        linearLayoutCompat.setPadding(10, 10, 10, 10);
+        EditText editText = new EditText(getActivity());
+        editText.setHint("Ingrese nuevo dato ...");
+        editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS|InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+        linearLayoutCompat.addView(editText);
+        builder.setView(linearLayoutCompat);
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String nuevoDato = editText.getText().toString().trim();
+                if (!nuevoDato.equals("")){
+                    HashMap<String, Object> resultado = new HashMap<>();
+                    resultado.put("NOMBRES", nuevoDato);
+                    BASE_DE_DATOS_ADMINISTRADORES.child(user.getUid()).updateChildren(resultado)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getActivity(), "Dato actualizado", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(getActivity(), "Campo vacio", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getActivity(), "Cancelado por usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void EditarApellidos() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Actualizar informacion");
+        LinearLayoutCompat linearLayoutCompat = new LinearLayoutCompat(getActivity());
+        linearLayoutCompat.setOrientation(LinearLayoutCompat.VERTICAL);
+        linearLayoutCompat.setPadding(10, 10, 10, 10);
+        EditText editText = new EditText(getActivity());
+        editText.setHint("Ingrese nuevo dato ...");
+        editText.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS|InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
+        linearLayoutCompat.addView(editText);
+        builder.setView(linearLayoutCompat);
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String nuevoDato = editText.getText().toString().trim();
+                if (!nuevoDato.equals("")){
+                    HashMap<String, Object> resultado = new HashMap<>();
+                    resultado.put("APELLIDOS", nuevoDato);
+                    BASE_DE_DATOS_ADMINISTRADORES.child(user.getUid()).updateChildren(resultado)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getActivity(), "Dato actualizado", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(getActivity(), "Campo vacio", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getActivity(), "Cancelado por usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    private void EditarEdad() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Actualizar informacion");
+        LinearLayoutCompat linearLayoutCompat = new LinearLayoutCompat(getActivity());
+        linearLayoutCompat.setOrientation(LinearLayoutCompat.VERTICAL);
+        linearLayoutCompat.setPadding(10, 10, 10, 10);
+        EditText editText = new EditText(getActivity());
+        editText.setHint("Ingrese nuevo dato ...");
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        linearLayoutCompat.addView(editText);
+        builder.setView(linearLayoutCompat);
+        builder.setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String nuevoDato = editText.getText().toString().trim();
+                if (!nuevoDato.equals("")){
+                    int nuevoDatoEntero = Integer.parseInt(nuevoDato);
+                    HashMap<String, Object> resultado = new HashMap<>();
+                    resultado.put("EDAD", nuevoDatoEntero);
+                    BASE_DE_DATOS_ADMINISTRADORES.child(user.getUid()).updateChildren(resultado)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getActivity(), "Dato actualizado", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(getActivity(), "Campo vacio", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getActivity(), "Cancelado por usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.create().show();
     }
 
     private void CambiarImagenPerfilAdministrador() {

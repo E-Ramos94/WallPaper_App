@@ -95,8 +95,8 @@
     <string name="Tres_Columnas">3 Columnas</string>
 
     <!--PERFIL-->
-    <string name="PERFILADMINISTRADORTXT">Mi Perfil</string>
-    <string name="MIINFORMACIONTXT">Mi Informacion</string>
+    <string name="PERFILADMINISTRADORTXT">MI PERFIL</string>
+    <string name="MIINFORMACIONTXT">MI INFORMACION</string>
     <string name="UIDPERFILTXT">Uid: </string>
     <string name="UIDPERFIL"> -- </string>
     <string name="NOMBREPERFILTXT">Nombres: </string>
@@ -122,4 +122,7 @@
     <string name="IRINICIOBTN">IR INICIO</string>
     <string name="NOTATXT">Nota: Si cambia el password, se cerrará sesión automáticamente</string>
 
+    <!--ADMINISTRADOR ITEM-->
+    <string name="NombresADMIN"> Nombres </string>
+    <string name="CorreoADMIN"> Correo Electronico </string>
 </resources>

@@ -2,65 +2,80 @@ package com.enrique.wallpaperspp.FragmentosAdministrador;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.enrique.wallpaperspp.Adaptador.Adaptador;
+import com.enrique.wallpaperspp.Modelo.Administrador;
 import com.enrique.wallpaperspp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListaAdmin#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListaAdmin extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    RecyclerView administradores_recyclerview;
+    Adaptador adaptador;
+    List<Administrador> administradoresList;
+    FirebaseAuth firebaseAuth;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ListaAdmin() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaAdmin.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListaAdmin newInstance(String param1, String param2) {
-        ListaAdmin fragment = new ListaAdmin();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_admin, container, false);
+
+        administradores_recyclerview = view.findViewById(R.id.administradores_recyclerview);
+        administradores_recyclerview.setHasFixedSize(true);
+        administradores_recyclerview.setLayoutManager(new GridLayoutManager(getActivity(),1));
+        administradoresList = new ArrayList<>();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        ObtenerLista();
+
+        return view;
+    }
+
+    private void ObtenerLista() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("BASE DE DATOS ADMINISTRADORES");
+        reference.orderByChild("APELLIDOS").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                administradoresList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    Administrador administrador = ds.getValue(Administrador.class);
+                    //CONDICION PARA QUE LA LISTA SE VISUALICEN TOOS LOS USUARIOS, EXCEPTO EL QUE HA INICIADO SESION
+                    assert user != null;
+                    assert administrador != null;
+
+                    if (!administrador.getUID().equals(user.getUid())) {
+                        administradoresList.add(administrador);
+                    }
+                    adaptador = new Adaptador(getActivity(), administradoresList);
+                    administradores_recyclerview.setAdapter(adaptador);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
