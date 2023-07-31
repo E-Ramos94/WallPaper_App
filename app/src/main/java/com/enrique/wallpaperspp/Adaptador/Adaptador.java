@@ -1,6 +1,7 @@
 package com.enrique.wallpaperspp.Adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.enrique.wallpaperspp.Detalle.Detalle_Administrador;
 import com.enrique.wallpaperspp.FragmentosAdministrador.PerfilAdmin;
 import com.enrique.wallpaperspp.Modelo.Administrador;
 import com.enrique.wallpaperspp.R;
@@ -64,7 +66,16 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.MyHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, Detalle_Administrador.class);
+                //PASAR DATOS A LA SIGUIENTE ACTIVIDAD
+                intent.putExtra("UID", UID);
+                intent.putExtra("NOMBRES", NOMBRES);
+                intent.putExtra("APELLIDOS", APELLIDOS);
+                intent.putExtra("CORREO", CORREO);
+                intent.putExtra("EDAD", EdadString);
+                intent.putExtra("IMAGEN", IMAGEN);
+                context.startActivity(intent);
+
             }
         });
     }

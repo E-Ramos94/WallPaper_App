@@ -3,11 +3,18 @@ package com.enrique.wallpaperspp.FragmentosAdministrador;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +58,7 @@ public class ListaAdmin extends Fragment {
         return view;
     }
 
+    //OBTENER TODA LA LISTA
     private void ObtenerLista() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("BASE DE DATOS ADMINISTRADORES");
@@ -77,5 +85,85 @@ public class ListaAdmin extends Fragment {
 
             }
         });
+    }
+
+    private void BuscarAdministrador(String consulta) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("BASE DE DATOS ADMINISTRADORES");
+        reference.orderByChild("APELLIDOS").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                administradoresList.clear();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    Administrador administrador = ds.getValue(Administrador.class);
+                    //CONDICION PARA QUE LA LISTA SE VISUALICEN TOOS LOS USUARIOS, EXCEPTO EL QUE HA INICIADO SESION
+                    assert user != null;
+                    assert administrador != null;
+
+                    if (!administrador.getUID().equals(user.getUid())) {
+
+
+                        //BUSCAR POR NOMBRE Y CORREO
+                        if (administrador.getNOMBRES().toLowerCase().contains(consulta.toLowerCase()) ||
+                            administrador.getCORREO().toLowerCase().contains(consulta.toLowerCase())) {
+                            administradoresList.add(administrador);
+                        }
+                    }
+                    adaptador = new Adaptador(getActivity(), administradoresList);
+                    administradores_recyclerview.setAdapter(adaptador);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //CREANDO EL MENU
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_buscar, menu);
+        MenuItem item = menu.findItem(R.id.buscar_administrador);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String consulta) {
+                //SE LLAMA CUANDO EL USUARUO PRESIONA EL BOTON BUSQUEDA DESDE EL TECLADO
+                if (!TextUtils.isEmpty(consulta.trim())){
+                    //SI LA CONSULTA DE BUSQUEDA NO ESTA VACIA, ENTONCES QUE BUSQUE
+                    BuscarAdministrador(consulta);
+                } else {
+                    //SI LA BUSQUEDA ES VACIA QUE MUESTRE TODA LA LISTA
+                    ObtenerLista();
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String consulta) {
+                //LA BUSQUEDA SE VA ACTUALIZANDO CONFORME VAMOS ESCRIBIENDO
+                if (!TextUtils.isEmpty(consulta.trim())) {
+                    BuscarAdministrador(consulta);
+                } else {
+                    //SI LA BUSQUEDA ES VACIA QUE MUESTRE TODA LA LISTA
+                    ObtenerLista();
+                }
+
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    //VISUALIZAR EL MENU
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
     }
 }

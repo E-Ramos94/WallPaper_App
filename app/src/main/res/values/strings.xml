@@ -125,4 +125,18 @@
     <!--ADMINISTRADOR ITEM-->
     <string name="NombresADMIN"> Nombres </string>
     <string name="CorreoADMIN"> Correo Electronico </string>
+
+    <string name="buscar_administrador">Buscar</string>
+
+    <!--DETALLE ADMINISTRADOR-->
+    <string name="DetalleTXT">Detalle del administrador</string>
+    <string name="UidDetalleAdmin">UID</string>
+    <string name="NombresDetalleAdmin">NOMBRES</string>
+    <string name="ApellidosDetalleAdmin">APELLIDOS</string>
+    <string name="CorreoDetalleAdmin">CORREO</string>
+    <string name="EdadDetalleAdmin">EDAD</string>
+
+    <!---->
+    <string name="NombreCategoriaD"> -- </string>
+
 </resources>

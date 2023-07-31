@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".Detalle.Detalle_Administrador"
+            android:exported="false" />
+        <activity
             android:name=".FragmentosAdministrador.Cambio_Pass"
             android:exported="false" />
         <activity
