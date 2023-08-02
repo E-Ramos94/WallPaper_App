@@ -1,5 +1,6 @@
 package com.enrique.wallpaperspp.FragmentosCliente;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.enrique.wallpaperspp.Categorias.Cat_Dispositivo.CategoriaD;
 import com.enrique.wallpaperspp.Categorias.Cat_Dispositivo.ViewHolderCD;
+import com.enrique.wallpaperspp.Categorias.ControladorCD;
 import com.enrique.wallpaperspp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -72,7 +74,12 @@ public class InicioCliente extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
 
+                        //OBTENEMOS EL NOMBRE DE LA CATEGORIA
                         String categoria = getItem(position).getCategoria();
+
+                        Intent intent = new Intent(view.getContext(), ControladorCD.class);
+                        intent.putExtra("Categoria", categoria);
+                        startActivity(intent);
                         Toast.makeText(getActivity(), categoria, Toast.LENGTH_SHORT).show();
                     }
                 });
