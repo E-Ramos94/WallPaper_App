@@ -69,10 +69,10 @@ public class ViewHolderSerie extends RecyclerView.ViewHolder {
         //CONTROLAR POSIBLES ERRORES
         try {
             //SI LA IMAEN FUE TRAIDA EXISTOSAMENTE
-            Picasso.get().load(imagen).into(Imagen_Serie);
+            Picasso.get().load(imagen).placeholder(R.drawable.categoria).into(Imagen_Serie);
         } catch (Exception e){
             //SI LA IMAGEN NO FUE TRAIDA EXISTOSAMENTE
-            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            Picasso.get().load(R.drawable.categoria).into(Imagen_Serie);
         }
     }
 }
