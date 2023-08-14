@@ -93,7 +93,22 @@ public class MusicaCliente extends AppCompatActivity {
                 viewHolderMusica.setOnClickListener(new ViewHolderMusica.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        startActivity(new Intent(MusicaCliente.this, DetalleCliente.class));
+                        //OBTENER LOS DATOS DE LA IMAGEN
+                        String imagen = getItem(position).getImagen();
+                        String Nombres = getItem(position).getNombre();
+                        int Vistas = getItem(position).getVistas();
+                        //CONVERTIR A STRING VISTAS
+                        String VistaString = String.valueOf(Vistas);
+
+                        //PASAMOS A LA ACTIVIDAD DETALLE CLIENTE
+                        Intent intent = new Intent(MusicaCliente.this, DetalleCliente.class);
+
+                        //DATOS A PASAR
+                        intent.putExtra("Imagen", imagen);
+                        intent.putExtra("Nombres", Nombres);
+                        intent.putExtra("Vista", VistaString);
+
+                        startActivity(intent);
                     }
 
                     @Override
