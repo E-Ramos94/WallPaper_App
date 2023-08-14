@@ -139,4 +139,9 @@
     <!---->
     <string name="NombreCategoriaD"> -- </string>
 
+    <!--DETALLE IMAGEN-->
+    <string name="NombreImagenTXT">Nombre de imagen</string>
+    <string name="NombreImgenDetalle"> -- </string>
+    <string name="VisualizacionTXT">Visualizaciones</string>
+    <string name="VistaDetalle"> -- </string>
 </resources>

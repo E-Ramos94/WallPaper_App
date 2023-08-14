@@ -27,6 +27,7 @@ import com.enrique.wallpaperspp.CategoriasAdmin.VideojuegosA.AgregarVideojuegos;
 import com.enrique.wallpaperspp.CategoriasAdmin.VideojuegosA.Videojuego;
 import com.enrique.wallpaperspp.CategoriasAdmin.VideojuegosA.VideojuegosA;
 import com.enrique.wallpaperspp.CategoriasAdmin.VideojuegosA.ViewHolderVideojuego;
+import com.enrique.wallpaperspp.DetalleCliente.DetalleCliente;
 import com.enrique.wallpaperspp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -92,7 +93,7 @@ public class VideojuegosCliente extends AppCompatActivity {
                 viewHolderVideojuego.setOnClickListener(new ViewHolderVideojuego.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(VideojuegosCliente.this, "ITEM CLICK", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(VideojuegosCliente.this, DetalleCliente.class));
                     }
 
                     @Override

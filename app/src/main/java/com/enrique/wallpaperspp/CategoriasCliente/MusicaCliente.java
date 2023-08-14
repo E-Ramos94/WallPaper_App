@@ -27,6 +27,7 @@ import com.enrique.wallpaperspp.CategoriasAdmin.MusicaA.AgregarMusica;
 import com.enrique.wallpaperspp.CategoriasAdmin.MusicaA.Musica;
 import com.enrique.wallpaperspp.CategoriasAdmin.MusicaA.MusicaA;
 import com.enrique.wallpaperspp.CategoriasAdmin.MusicaA.ViewHolderMusica;
+import com.enrique.wallpaperspp.DetalleCliente.DetalleCliente;
 import com.enrique.wallpaperspp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -92,7 +93,7 @@ public class MusicaCliente extends AppCompatActivity {
                 viewHolderMusica.setOnClickListener(new ViewHolderMusica.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(MusicaCliente.this, "ITEM CLICK", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MusicaCliente.this, DetalleCliente.class));
                     }
 
                     @Override

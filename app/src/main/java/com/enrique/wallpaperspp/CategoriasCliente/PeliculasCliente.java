@@ -27,6 +27,7 @@ import com.enrique.wallpaperspp.CategoriasAdmin.PeliculasA.AgregarPelicula;
 import com.enrique.wallpaperspp.CategoriasAdmin.PeliculasA.Pelicula;
 import com.enrique.wallpaperspp.CategoriasAdmin.PeliculasA.PeliculasA;
 import com.enrique.wallpaperspp.CategoriasAdmin.PeliculasA.ViewHolderPelicula;
+import com.enrique.wallpaperspp.DetalleCliente.DetalleCliente;
 import com.enrique.wallpaperspp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -92,7 +93,7 @@ public class PeliculasCliente extends AppCompatActivity {
                 viewHolderPelicula.setOnClickListener(new ViewHolderPelicula.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(PeliculasCliente.this, "ITEM CLICK", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PeliculasCliente.this, DetalleCliente.class));
                     }
 
                     @Override

@@ -27,6 +27,7 @@ import com.enrique.wallpaperspp.CategoriasAdmin.SeriesA.AgregarSerie;
 import com.enrique.wallpaperspp.CategoriasAdmin.SeriesA.Serie;
 import com.enrique.wallpaperspp.CategoriasAdmin.SeriesA.SeriesA;
 import com.enrique.wallpaperspp.CategoriasAdmin.SeriesA.ViewHolderSerie;
+import com.enrique.wallpaperspp.DetalleCliente.DetalleCliente;
 import com.enrique.wallpaperspp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -92,7 +93,7 @@ public class SeriesCliente extends AppCompatActivity {
                 viewHolderSerie.setOnClickListener(new ViewHolderSerie.ClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Toast.makeText(SeriesCliente.this, "ITEM CLICK", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SeriesCliente.this, DetalleCliente.class));
                     }
 
                     @Override
